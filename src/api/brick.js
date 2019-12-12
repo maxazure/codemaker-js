@@ -22,9 +22,9 @@ export function addBrick(data) {
   })
 }
 
-export function putBrick(id, data) {
+export function putBrick(id,data) {
   return request({
-    url: '/api/bricks/' + id,
+    url: '/api/bricks/'+id,
     method: 'put',
     data
   })

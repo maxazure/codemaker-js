@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       title: '新项目',
-      widgetForm: {}
+      widgetForm: {},
+      rules: {}
     }
   },
   created() {

@@ -47,7 +47,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/projects',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -82,13 +82,32 @@ export const constantRoutes = [
       path: 'bricks',
       component: () => import('@/views/projects/bricks'),
       hidden: true,
-      meta: { title: '详情' }
+      meta: { title: '模块' }
     },
     {
       path: 'bricks/add',
       component: () => import('@/views/projects/add_brick'),
       hidden: true
-
+    },
+    {
+      path: 'bricks/edit',
+      component: () => import('@/views/projects/edit_brick'),
+      hidden: true
+    },
+    {
+      path: 'bricks/config',
+      component: () => import('@/views/projects/config'),
+      hidden: true
+    },
+    {
+      path: 'bricks/fields/add',
+      component: () => import('@/views/projects/add_field'),
+      hidden: true
+    },
+    {
+      path: 'bricks/fields/edit',
+      component: () => import('@/views/projects/edit_field'),
+      hidden: true
     }
     ]
   },

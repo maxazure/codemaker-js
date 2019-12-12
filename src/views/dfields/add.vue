@@ -53,7 +53,8 @@ export default {
   data() {
     return {
       title: '新项目',
-      dfieldForm: {}
+      dfieldForm: {},
+      rules: null
     }
   },
   created() {

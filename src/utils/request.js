@@ -72,41 +72,35 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    if (!response.data) {
-      Message({
-        message: res.message || '缺少 data Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-    }
-    const res = response.data
+
+    const res = response.data;
     console.log(res)
     // if the custom code is not 20000, it is judged as an error.
     ajaxAfter()
-
-    if (res.code !== 200) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 401) {
-        // to re-login
-        MessageBox.confirm('没授权异常', '前往登录', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
-      return Promise.reject(new Error(res.message || 'Error '))
-    } else {
-      return res
-    }
+    return res
+    /*   if (res.code !== 200) {
+         Message({
+           message: res.message || 'Error',
+           type: 'error',
+           duration: 5 * 1000
+         })
+         // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+         if (res.code === 401) {
+           // to re-login
+           MessageBox.confirm('没授权异常', '前往登录', {
+             confirmButtonText: 'Re-Login',
+             cancelButtonText: 'Cancel',
+             type: 'warning'
+           }).then(() => {
+             store.dispatch('user/resetToken').then(() => {
+               location.reload()
+             })
+           })
+         }
+         return Promise.reject(new Error(res.message || 'Error '))
+       } else {
+         return res
+       }*/
   },
   error => {
     console.log('err' + error) // for debug
@@ -122,7 +116,6 @@ service.interceptors.response.use(
 async function http(params = {}) {
   ajaxBefore()
   const data = await service(params)
-  dataPrepared(data)
   ajaxAfter()
   return data
 }

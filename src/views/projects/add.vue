@@ -6,7 +6,7 @@
         ref="yForm"
         :model="projectForm"
         :rules="rules"
-        label-width="100px"
+        label-width="150px"
       >
         <el-form-item label="项目名称:" prop="name">
           <el-input v-model="projectForm.name" />
@@ -53,8 +53,11 @@ export default {
   data() {
     return {
       title: '新项目',
-      projectForm: {}
+      projectForm: {},
+      rules: {}
     }
+  },
+  computed:{
   },
   created() {
   },

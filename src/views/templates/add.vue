@@ -58,7 +58,7 @@ import yCard from '@/components/yCard'
 export default {
   components: { yCard },
   data() {
-    return {
+    return { rules: {},
       title: '新模板',
       templateForm: {},
       options: [{

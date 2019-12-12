@@ -50,9 +50,11 @@ export default {
   data() {
     return {
       title: '新模块',
-      brickForm: {}
+      brickForm: {},
+      rules: null
     }
   },
+  computed: {},
   created() {
   },
   mounted() {
@@ -61,7 +63,7 @@ export default {
     async api() {
       this.brickForm.project_id = this.$route.query.id
       const res = await addBrick(this.brickForm)
-      this.$router.push({ path: '/bricks' })
+      this.back()
     },
     async submit(brickForm) {
       this.$refs.yForm.validate(valid => {
@@ -75,6 +77,20 @@ export default {
           return false
         }
       })
+    },
+    Pl(str) {
+      switch (true) {
+        case /[sxz]$/.test(str):
+          return str + 'es'
+        case /[^aeioudgkprt]h$/.test(str):
+          return str + 'es'
+        case /(qu|[^aeiou])y$/.test(str):
+          return str.substr(0, str.length - 1) + 'ies'
+        case /^undefined$/.test(str):
+          return ''
+        default:
+          return str + 's'
+      }
     },
     back() {
       history.go(-1)

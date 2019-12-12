@@ -109,27 +109,10 @@ export function param2Obj(url) {
 }
 
 export function dataPrepared(data) {
-  changeGender(data)
+  return data
 }
 
-export function changeGender(data) {
-  if (data.data.list && data.data.list[0].gender) {
-    data.data.list.map((x) => {
-      if (x.gender === 1) {
-        x.gender = '男'
-      }
-      if (x.gender === 0) {
-        x.gender = '女'
-      }
-    })
-    return
-  }
-  if (data.data.gender) {
-    if (data.data.gender === 1) {
-      data.data.gender = '男'
-    }
-    if (data.data.gender === 0) {
-      data.data.gender = '女'
-    }
-  }
+export function getPlural(singular) {
+  return singular + 's'
 }
+

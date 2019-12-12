@@ -1,7 +1,7 @@
 <template>
   <div class="yForm">
     <el-card class="box-card">
-      <h3>{{title}}</h3>
+      <h3>{{ title }}</h3>
       <el-form
         ref="yForm"
         :model="formData"
@@ -9,7 +9,7 @@
         label-width="100px"
         style="width:500px;"
       >
-        <slot></slot>
+        <slot />
       </el-form>
     </el-card>
   </div>
@@ -19,24 +19,27 @@
 export default {
   props: { title: String, formData: Object, rules: Object },
   data() {
-    return {};
+    return {}
   },
-  created() {},
-  mounted() {},
+  created() {
+  },
+  mounted() {
+  },
   methods: {
     check() {
-      return this.$refs.yForm.validate();
+      return this.$refs.yForm.validate()
     }
   }
-};
+}
 </script>
 <style lang='scss' scope>
-.card-container {
-  background-color: #f0f2f5;
-  padding: 30px;
-  min-height: 100vh;
-  .box-card {
-    width: 600px;
+  .card-container {
+    background-color: #f0f2f5;
+    padding: 30px;
+    min-height: 100vh;
+
+    .box-card {
+      width: 600px;
+    }
   }
-}
 </style>
