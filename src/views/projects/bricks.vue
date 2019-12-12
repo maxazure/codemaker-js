@@ -7,10 +7,10 @@
           <div slot="header" class="clearfix">
             <span style="line-height: 40px">{{ item.name }}/{{ item.cnname }}</span>
             <div style="float: right">
-              <el-button type="text" @click="edit(item.id)">修改</el-button>
-              <el-button type="text" @click="del(item.id)">删除</el-button>
-              <el-button type="text" @click="set(item.id)">配置</el-button>
-              <el-button type="text" @click="addField(item.id)">添加字段</el-button>
+              <el-button type="text" size="mini" @click="edit(item.id)">修改</el-button>
+              <el-button type="text" size="mini" @click="del(item.id)">删除</el-button>
+              <el-button type="text" size="mini" @click="set(item.id)">配置</el-button>
+              <el-button type="text" size="mini" @click="addField(item.id)">添加字段</el-button>
             </div>
           </div>
           <el-table :data="item.dfields" style="width: 100%" @row-click="rowClick">
