@@ -17,11 +17,11 @@
             <el-table-column prop="name" label="字段名" />
             <el-table-column prop="cnname" label="中文名" />
             <el-table-column prop="field_type" label="类型" width="60px" />
-            <el-table-column  label="必 首 改" width="80px">
+            <el-table-column label="必 首 改" width="80px">
               <template slot-scope="scope">
-                <i  :class="scope.row.is_required? 'el-icon-check':'el-icon-close'" />
-                <i  :class="scope.row.is_show_in_list? 'el-icon-check':'el-icon-close'" />
-                <i  :class="scope.row.is_editable? 'el-icon-check':'el-icon-close'" />
+                <i :class="scope.row.is_required? 'el-icon-check':'el-icon-close'" />
+                <i :class="scope.row.is_show_in_list? 'el-icon-check':'el-icon-close'" />
+                <i :class="scope.row.is_editable? 'el-icon-check':'el-icon-close'" />
               </template>
             </el-table-column>
 
@@ -93,7 +93,7 @@ export default {
       this.row.pop()
     },
     set(id) {
-      this.$router.push({ path: 'bricks/config' })
+      this.$router.push({ path: 'bricks/config', query: { id: id }})
     },
     rowClick(row, column, event) {
       this.$router.push({ path: 'bricks/fields/edit', query: { id: row.id }})
@@ -104,7 +104,7 @@ export default {
 
 <style lang="scss">
   .detail {
-    .bricks{
+    .bricks {
       .box-card {
         width: 400px;
         float: left;

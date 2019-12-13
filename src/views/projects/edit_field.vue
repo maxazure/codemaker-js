@@ -9,49 +9,56 @@
         label-width="150px"
       >
         <el-form-item />
-        <el-form-item label="英文名称:" >
+        <el-form-item label="英文名称:">
           <el-input v-model="fieldForm.name" />
         </el-form-item>
-        <el-form-item label="中文名称:" >
+        <el-form-item label="中文名称:">
           <el-input v-model="fieldForm.cnname" />
         </el-form-item>
-        <el-form-item label="简介:"  >
+        <el-form-item label="简介:">
           <el-input v-model="fieldForm.description" />
         </el-form-item>
-        <el-form-item label="字段类型:"  >
-          <el-input v-model="fieldForm.field_type" />
+        <el-form-item label="字段类型:">
+          <el-select v-model="fieldForm.field_type" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.value"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="是否必填:" >
+        <el-form-item label="是否必填:">
           <el-switch
             v-model="fieldForm.is_required"
             active-color="#13ce66"
-            inactive-color="#ff4949">
-          </el-switch>
+            inactive-color="#ff4949"
+          />
         </el-form-item>
-        <el-form-item label="是否显示在列表:" >
+        <el-form-item label="是否显示在列表:">
           <el-switch
             v-model="fieldForm.is_show_in_list"
             active-color="#13ce66"
-            inactive-color="#ff4949">
-          </el-switch>
+            inactive-color="#ff4949"
+          />
         </el-form-item>
-        <el-form-item label="是否可编辑:" >
+        <el-form-item label="是否可编辑:">
           <el-switch
             v-model="fieldForm.is_editable"
             active-color="#13ce66"
-            inactive-color="#ff4949">
-          </el-switch>
+            inactive-color="#ff4949"
+          />
         </el-form-item>
-        <el-form-item label="API数据接口:" >
+        <el-form-item label="API数据接口:">
           <el-input v-model="fieldForm.api" />
         </el-form-item>
-        <el-form-item label="排序:" >
+        <el-form-item label="排序:">
           <el-input v-model="fieldForm.sort" />
         </el-form-item>
-        <el-form-item label="宽度:" >
+        <el-form-item label="宽度:">
           <el-input v-model="fieldForm.width" />
         </el-form-item>
-        <el-form-item label="正则:" >
+        <el-form-item label="正则:">
           <el-input v-model="fieldForm.regx" />
         </el-form-item>
 
@@ -76,6 +83,7 @@ export default {
     return {
       title: '修改字段',
       fieldForm: {},
+      options: [{ value: 'string' }, { value: 'integer' }, { value: 'boolean' },{value:'date'}],
       rules: null
     }
   },
@@ -91,7 +99,7 @@ export default {
     },
     async api() {
       this.fieldForm.project_id = this.$route.query.id
-      const res = await putDfield(this.fieldForm.id,this.fieldForm)
+      const res = await putDfield(this.fieldForm.id, this.fieldForm)
       this.back()
     },
     async submit(fieldForm) {

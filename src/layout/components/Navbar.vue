@@ -51,7 +51,7 @@ export default {
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     back() {
-      history.go(-1)
+      this.$router.go(-1)
     }
   }
 }
