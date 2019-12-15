@@ -97,6 +97,7 @@ export const constantRoutes = [
     {
       path: 'bricks/config',
       component: () => import('@/views/projects/config'),
+      // component: () => import('@/views/projects/config_copy'),
       hidden: true
     },
     {
