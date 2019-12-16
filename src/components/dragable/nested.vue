@@ -1,20 +1,25 @@
 <template>
-  <draggable class="dragArea" tag="ul" :list="cols" :group="{ name: 'g1' }">
-    <li v-for="el in cols" :key="el.name">
-      <p>{{ el.name }}</p>
-      <nested-draggable :cols="el.cols" />
+  <draggable class="dragArea" tag="ul" :list="tasks" :group="{ name: 'tasks' }">
+    <li v-for="el in tasks" :key="el.name">
+      <component :is="el.type" class="field" />
+
+      <nested-draggable v-if="el.tasks" :tasks="el.tasks"  />
     </li>
   </draggable>
 </template>
-<script>import draggable from 'vuedraggable'
+<script>
+import draggable from 'vuedraggable'
+import baseButton from '@/components/editor/base-button'
+import baseInput from '@/components/editor/base-input'
+import baseSelect from '@/components/editor/base-select'
 
 export default {
   name: 'NestedDraggable',
   components: {
-    draggable
+    draggable, baseButton, baseInput, baseSelect
   },
   props: {
-    cols: {
+    tasks: {
       required: true,
       type: Array
     }

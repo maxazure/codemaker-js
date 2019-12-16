@@ -10,19 +10,16 @@
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location" />
-            <span>布局设置</span>
+            <span >布局设置</span>
           </template>
           <draggable
             :list="layouts"
             class="layouts"
             :group="{ name: 'layouts', pull: 'clone', put: false }"
-            handle=".nav-field"
+            @change="log"
           >
             <el-menu-item v-for="layout of layouts" :key="layout.id" :index="layout.id">
-              <div
-                class="nav-field"
-              >{{ layout.row }}
-              </div>
+              {{ layout.row }}
             </el-menu-item>
 
           </draggable>
@@ -32,18 +29,14 @@
             <i class="el-icon-menu" />
             <span slot="title">字段</span>
           </template>
-          <draggable
-            :list="brick.fields"
-            class="fields"
-            group="fields"
-            @drag="log"
-          >
+          <div class="field-group">
             <el-menu-item v-for="field of brick.fields" :key="field.id" :index="field.id">
-              <div>{{ field.name }} {{ field.cnname }}
+              <div class="field-item">
+                {{ field.name }} {{ field.cnname }}
               </div>
             </el-menu-item>
 
-          </draggable>
+          </div>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">
@@ -65,10 +58,10 @@
 
     <div class="form-container">
       <el-card>
-        {{ rows }}
-        <draggable :list="rows" group="layouts" handle=".header">
+        <div>{{ rows }}</div>
+        <draggable :list="rows" group="layouts" @change="changeLayout">
           <el-card v-for="row of rows" :key="row.id">
-            <div slot="header" class="clearfix header">
+            <div slot="header" class="clearfix row-header">
               <el-input v-model="row.title" style="width: 100px" placeholder="请输入标题" />
               <div style="float: right;height: 20px">
                 <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="delRow(row)">
@@ -78,31 +71,15 @@
             </div>
             <div>
               <el-row>
-                <div v-for="col of row.cols" :key="col.id">
+                <div v-for="(col,colIndex ) of row.cols" :key="col.id">
                   <el-col :span="row.span">
-                    <draggable
-                      :list="col.fields"
-                      group="fields"
-                      handle=".field"
-                      class="cols"
-                    >
+                    <div :class="'col'+colIndex">
                       放到此处
-                      <div
-                        v-for="field of col.fields"
-                        :key="field.id"
-                        class="fields"
-                        @drop="log"
-                        @dragstart="log"
-                        @dragend="log"
-                      >
-                        <div
-                          class="field"
-
-                        >{{ field.name }} {{ field.cnname }}
-                        </div>
-                        <!--                        <component class="field" :is="field.type"></component>-->
+                      <div v-for="(field,fieldIndex) of col.fields" :key="field.id" class="field">
+                        <!--                        <div   class="field-item"  >{{ field.name }} {{ field.cnname }}</div>-->
+                        <component :is="field.type" />
                       </div>
-                    </draggable>
+                    </div>
                   </el-col>
                 </div>
               </el-row>
@@ -119,6 +96,7 @@ import draggable from 'vuedraggable'
 import baseButton from '@/components/editor/base-button'
 import baseInput from '@/components/editor/base-input'
 import baseSelect from '@/components/editor/base-select'
+import Sortable from 'sortablejs'
 
 export default {
   components: { draggable, baseInput, baseButton, baseSelect },
@@ -126,16 +104,16 @@ export default {
     return {
       brick: {
         name: 'test',
-        fields: [{ name: 'input', type: 'baseInput', id: '1' }, { name: 'button', type: 'baseButton', id: '2' }, {
-          name: 'select',
-          type: 'baseSelect', id: '3'
-        }],
+        fields: [
+          { name: 'input', type: 'baseInput', id: '1' },
+          { name: 'button', type: 'baseButton', id: '2' },
+          { name: 'select', type: 'baseSelect', id: '3' }],
         id: '123'
       },
       rows: [],
       isCollapse: false,
       layouts: [
-        { row: '1列', span: 24, cols: [{ fields: [{ id: '10086' }], id: '1' }] },
+        { row: '1列', span: 24, cols: [{ fields: [] }] },
         { row: '2列', span: 12, cols: [{ fields: [] }, { fields: [] }] },
         { row: '3列', span: 8, cols: [{ fields: [] }, { fields: [] }, { fields: [] }] },
         {
@@ -152,6 +130,18 @@ export default {
     // this.get()
   },
   mounted() {
+    const $list1 = this.$el.querySelector('.field-group')
+
+    new Sortable.create($list1, {
+      handle: '.field-item',
+      animation: 150,
+      group: 'fields',
+      ghostClass: 'blue-background-class',
+      onUpdate: (event) => {
+        console.log('event值为：', event, event.newIndex, event.oldIndex)
+        this.onUpEvent(event)
+      }
+    })
   },
   methods: {
     async get() {
@@ -204,7 +194,41 @@ export default {
     delRow(row) {
       this.rows.splice(this.rows.indexOf(row), 1)
     },
-    log(evt) {
+    log: function(evt) {
+      window.console.log(evt)
+    },
+    onUpEvent(e) {
+      console.log(e)
+      // var item = this.list1[e.oldIndex]
+      // this.rows.splice(e.oldIndex, 1)
+      // this.rows.splice(e.newIndex, 0, item)
+      console.log('拖动后的数据显示', this.rows)
+    },
+    changeLayout(evt) {
+      console.log(evt)
+      if (evt.added) {
+        const cols = evt.added.element.cols
+        for (let i = 0; i < cols.length; i++) {
+          const $col = this.$el.querySelector('.col' + i)
+          new Sortable.create($col, {
+            handle: 'field-item',
+            animation: 150,
+            group: 'fields',
+            fallbackOnBody: true,
+            ghostClass: 'blue-background-class',
+            onUpdate: (event) => {
+              console.log('event值为：', event, event.newIndex, event.oldIndex)
+              this.onUpEvent(event)
+            }
+          })
+        }
+      }
+    },
+    clickField(evt) {
+      console.log('cli')
+      console.log(evt)
+    },
+    drag(evt) {
       console.log(evt)
     }
   }

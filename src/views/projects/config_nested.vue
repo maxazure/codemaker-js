@@ -33,12 +33,12 @@
             <span slot="title">字段</span>
           </template>
           <draggable
-            :list="brick.fields"
-            class="fields"
-            group="fields"
+            :list="brick.tasks"
+            class="tasks"
+            :group="{ name: 'tasks' }"
             @drag="log"
           >
-            <el-menu-item v-for="field of brick.fields" :key="field.id" :index="field.id">
+            <el-menu-item v-for="field of brick.tasks" :key="field.id" :index="field.id">
               <div>{{ field.name }} {{ field.cnname }}
               </div>
             </el-menu-item>
@@ -50,7 +50,7 @@
             <i class="el-icon-menu" />
             <span slot="title">组件</span>
           </template>
-          <draggable :list="comps" class="comps" group="fields">
+          <draggable :list="comps" class="comps" group="tasks">
             <el-menu-item index="3-1">
               下拉框
             </el-menu-item>
@@ -65,9 +65,9 @@
 
     <div class="form-container">
       <el-card>
-        {{ rows }}
-        <draggable :list="rows" group="layouts" handle=".header">
-          <el-card v-for="row of rows" :key="row.id">
+        {{ tasks }}
+        <draggable :list="tasks" group="layouts" handle=".header">
+          <el-card v-for="row of tasks" :key="row.id">
             <div slot="header" class="clearfix header">
               <el-input v-model="row.title" style="width: 100px" placeholder="请输入标题" />
               <div style="float: right;height: 20px">
@@ -77,35 +77,7 @@
               </div>
             </div>
             <div>
-              <el-row>
-                <div v-for="col of row.cols" :key="col.id">
-                  <el-col :span="row.span">
-                    <draggable
-                      :list="col.fields"
-                      group="fields"
-                      handle=".field"
-                      class="cols"
-                    >
-                      放到此处
-                      <div
-                        v-for="field of col.fields"
-                        :key="field.id"
-                        class="fields"
-                        @drop="log"
-                        @dragstart="log"
-                        @dragend="log"
-                      >
-                        <div
-                          class="field"
-
-                        >{{ field.name }} {{ field.cnname }}
-                        </div>
-                        <!--                        <component class="field" :is="field.type"></component>-->
-                      </div>
-                    </draggable>
-                  </el-col>
-                </div>
-              </el-row>
+              <nestedDraggable :tasks="row.tasks" />
             </div>
           </el-card>
         </draggable>
@@ -119,28 +91,29 @@ import draggable from 'vuedraggable'
 import baseButton from '@/components/editor/base-button'
 import baseInput from '@/components/editor/base-input'
 import baseSelect from '@/components/editor/base-select'
+import nestedDraggable from '@/components/dragable/nested'
 
 export default {
-  components: { draggable, baseInput, baseButton, baseSelect },
+  components: { draggable, baseInput, baseButton, baseSelect, nestedDraggable },
   data() {
     return {
       brick: {
         name: 'test',
-        fields: [{ name: 'input', type: 'baseInput', id: '1' }, { name: 'button', type: 'baseButton', id: '2' }, {
+        tasks: [{ name: 'input', type: 'baseInput', id: '1' }, { name: 'button', type: 'baseButton', id: '2' }, {
           name: 'select',
           type: 'baseSelect', id: '3'
         }],
         id: '123'
       },
-      rows: [],
+      tasks: [],
       isCollapse: false,
       layouts: [
-        { row: '1列', span: 24, cols: [{ fields: [{ id: '10086' }], id: '1' }] },
-        { row: '2列', span: 12, cols: [{ fields: [] }, { fields: [] }] },
-        { row: '3列', span: 8, cols: [{ fields: [] }, { fields: [] }, { fields: [] }] },
+        { row: '1列', span: 24, tasks: [{ tasks: [] }] },
+        { row: '2列', span: 12, tasks: [{ tasks: [] }, { tasks: [] }] },
+        { row: '3列', span: 8, tasks: [{ tasks: [] }, { tasks: [] }, { tasks: [] }] },
         {
           row: '4列', span: 6,
-          cols: [{ fields: [] }, { fields: [] }, { fields: [] }, { fields: [] }]
+          tasks: [{ tasks: [] }, { tasks: [] }, { tasks: [] }, { tasks: [] }]
         }
       ],
       comps: []
@@ -187,10 +160,10 @@ export default {
         })
     },
     cutRow() {
-      this.rows.pop()
+      this.tasks.pop()
     },
     cutCol(row) {
-      row.cols.pop()
+      row.tasks.pop()
     },
     set(id) {
       this.$router.push({ path: 'bricks/config' })
@@ -202,7 +175,7 @@ export default {
       this.get()
     },
     delRow(row) {
-      this.rows.splice(this.rows.indexOf(row), 1)
+      this.tasks.splice(this.tasks.indexOf(row), 1)
     },
     log(evt) {
       console.log(evt)
@@ -222,13 +195,13 @@ export default {
     .form-container {
       flex: 1;
 
-      .cols {
+      .tasks {
         /*display: flex;*/
         /*justify-content: space-around;*/
         padding: 10px;
         border: #d3dce6 1px solid;
 
-        .fields {
+        .tasks {
           border: #d3dce6 1px solid;
         }
       }
