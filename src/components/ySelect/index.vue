@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" placeholder="请选择" @change="handleChange">
+  <el-select v-model="result" placeholder="请选择" @change="handleChange">
     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
   </el-select>
 </template>
@@ -11,7 +11,8 @@ export default {
   props: { url: { type: String }, value: String },
   data() {
     return {
-      options: []
+      options: [],
+      result: this.value
     }
   },
   created() {
@@ -27,7 +28,7 @@ export default {
       })
     },
     handleChange() {
-      this.$emit('input', this.value)
+      this.$emit('input', this.result)
     }
   }
 }

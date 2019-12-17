@@ -1,127 +1,198 @@
 <template>
-  <div class="app-container">
-    <el-row>
-      <el-col :span="3">
-        <el-button @click="addInput">button1</el-button>
-      </el-col>
-      <el-col :span="21">
-        <div v-for="i in list ">
-          <el-input type="primary" />
-        </div>
-        <div class="list1">
-          <div
-            v-for="(item,index) in list1"
-            :key="index.id"
-            class="cellmat"
+  <div class="detail app-container">
+    <div class="nav">
+      <el-menu
+        default-active="1"
+        :default-openeds="['1','2']"
+        class="el-menu-vertical"
+        :collapse="false"
+      >
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-location" />
+            <span>布局设置</span>
+          </template>
+          <draggable
+            class="layouts"
+            :list="layouts"
+            :group="{ name: 'layouts', pull: 'clone', put: false }"
+            :clone="deepClone"
+            handle=".nav-dfield"
           >
-            {{ item }}
+            <el-menu-item v-for="layout of layouts" :key="layout.row" :index="layout.row">
+              <div
+                class="nav-dfield"
+              >
+                {{ layout.row }}
+              </div>
+            </el-menu-item>
+          </draggable>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-menu" />
+            <span slot="title">字段</span>
+          </template>
+          <draggable
+            :list="brick.dfields"
+            class="dfields"
+            group="dfields"
+          >
+            <el-menu-item v-for="dfield of brick.dfields" :key="dfield.id" :index="dfield.id.toString()">
+              <div>{{ dfield.name }} {{ dfield.cnname }}
+              </div>
+            </el-menu-item>
+          </draggable>
+        </el-submenu>
+      </el-menu>
+    </div>
+    <div class="form-container">
+      <el-card>
+        <div slot="header" class="clearfix">
+          <div style="float: right;height: 20px">
+            <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="reset">
+              <span>重置</span>
+            </el-button>
+            <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="save">
+              <span>保存</span>
+            </el-button>
           </div>
         </div>
-        -------
-        <div class="list2">
-          <div
-            v-for="(item,index) in list2"
-            :key="index.id"
-            class="cellmat"
-          >
-            {{ item }}
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+        <draggable :list="rows" group="layouts" handle=".header">
+          <el-card v-for="row of rows" :key="row.id">
+            <div slot="header" class="clearfix header">
+              <el-input v-model="row.title" style="width: 100px" placeholder="请输入标题" />
+              <div style="float: right;height: 20px">
+                <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="delRow(row)">
+                  <span>删除</span>
+                </el-button>
+              </div>
+            </div>
+            <!--    移动 col -->
+            <!--            <draggable :list="row.cols" group="cols">     -->
+            <el-row>
+              <div v-for="col of row.cols" :key="col.id" class="cols">
+                <el-col :span="row.span">
+                  <div class="th">列</div>
+                  <draggable :list="col.dfields" group="dfields">
+                    <div v-for="dfield of col.dfields" :key="dfield.id" class="dfields">
+                      <el-row>
+                        <el-col :span="6">
+                          <div class="label">{{ dfield.cnname }}:&nbsp;</div>
+                        </el-col>
+                        <el-col :span="18">
+                          <component :is="dfield.ctype" class="dfield" />
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </draggable>
+                </el-col>
+              </div>
+            </el-row>
+          </el-card>
+        </draggable>
+      </el-card>
+    </div>
   </div>
 </template>
 <script>
-import { getBrick, delBrick } from '../../api/brick'
+import { getBrick } from '../../api/brick'
 import draggable from 'vuedraggable'
-import baseButton from '@/components/editor/base-button'
-import baseInput from '@/components/editor/base-input'
-import Sortable from 'sortablejs'
+import dragInput from '@/components/drag-component/drag-input'
+import dragSelect from '@/components/drag-component/drag-select'
+import dragCheckbox from '@/components/drag-component/drag-checkbox'
+import dragDatepicker from '@/components/drag-component/drag-datepicker'
+import dragNumber from '@/components/drag-component/drag-number'
+import dragRadio from '@/components/drag-component/drag-radio'
+import dragTextarea from '@/components/drag-component/drag-textarea'
 
 export default {
-
-  components: { draggable, baseButton, baseInput },
+  components: {
+    draggable,
+    dragInput,
+    dragSelect,
+    dragCheckbox,
+    dragDatepicker,
+    dragNumber,
+    dragRadio,
+    dragTextarea
+  },
   data() {
     return {
-      inputValue: '',
-      yyyy: '',
-      list1: [
-        { name: 'John', id: 1 },
-        { name: 'Joao', id: 2 },
-        { name: 'Jean', id: 3 },
-        { name: 'Gerard', id: 4 }
-      ],
-      list2: [
-        { name: 'Juan', id: 5 },
-        { name: 'Edgard', id: 6 },
-        { name: 'Johnson', id: 7 }
-      ],
-      handle: true,
-      currentWidget: 'baseButton',
-      list: 10
+      brick: {},
+      rows: [],
+      layouts: [
+        { row: '1列', span: 24, cols: [{ dfields: [] }] },
+        { row: '2列', span: 12, cols: [{ dfields: [] }, { dfields: [] }] },
+        { row: '3列', span: 8, cols: [{ dfields: [] }, { dfields: [] }, { dfields: [] }] },
+        {
+          row: '4列', span: 6,
+          cols: [{ dfields: [] }, { dfields: [] }, { dfields: [] }, { dfields: [] }]
+        }
+      ]
     }
   },
-  computed: {},
-  watch: {},
   created() {
-    // this.get()
-  },
-  mounted() {
-
+    this.get()
   },
   methods: {
-    log: function(evt) {
-      window.console.log(evt)
+    async get() {
+      const res = await getBrick(this.$route.query.id)
+      this.brick = res.data
     },
-    onUpEvent(e) {
-      var item = this.list1[e.oldIndex]
-      console.log(item)
-      this.list1.splice(e.oldIndex, 1)
-      this.list1.splice(e.newIndex, 0, item)
-      console.log('拖动后的数据显示', this.list1)
+    async save() {
+      console.log(this.rows)
     },
-    addInput() {
-      this.list++
-      // this.handle = !this.handle
-      // this.yyyy = `<el-input v-model="input" placeholder="请输入内容"></el-input>`
-
-      // this.currentWidget = baseInput
-      var $list1 = this.$el.querySelector('.list1')
-      var $list2 = this.$el.querySelector('.list2')
-
-      new Sortable.create($list1, {
-        handle: '.cellmat',
-        animation: 150,
-        group: 'test',
-        ghostClass: 'blue-background-class',
-        onUpdate: (event) => {
-          console.log('event值为：', event, event.newIndex, event.oldIndex)
-          this.onUpEvent(event)
-        }
-      })
-
-      new Sortable.create($list2, {
-        handle: '.cellmat',
-        animation: 150,
-        group: 'test',
-        ghostClass: 'blue-background-class',
-        onUpdate: (event) => {
-          console.log('event值为：', event, event.newIndex, event.oldIndex)
-          this.onUpEvent(event)
-        }
-      })
+    reset() {
+      this.get()
+      this.rows = []
+    },
+    delRow(row) {
+      if (row.cols) {
+        row.cols.map((item) => {
+          item.dfields.map((item2) => {
+            this.brick.dfields.push(item2)
+          })
+        })
+      }
+      this.rows.splice(this.rows.indexOf(row), 1)
+    },
+    log(evt) {
+      console.log(evt)
+    },
+    deepClone(o) {
+      return JSON.parse(JSON.stringify(o))
     }
-
   }
 }
 </script>
 
 <style lang="scss">
-  .test-enter-active, .test-leave-active {
-    transition: opacity .5s;
-  }
+  .detail {
+    display: flex;
 
-  .test-enter, .test-leave-to {
-    opacity: 0;
+    .nav {
+      width: 200px;
+    }
+
+    .form-container {
+      flex: 1;
+
+      .cols {
+        .th {
+          text-align: center;
+        }
+
+        .dfields {
+          padding: 10px;
+
+          .label {
+            line-height: 40px
+          }
+
+        }
+      }
+    }
+
   }
 </style>

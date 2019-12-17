@@ -97,7 +97,6 @@
                       >
                         <div
                           class="field"
-
                         >{{ field.name }} {{ field.cnname }}
                         </div>
                         <!--                        <component class="field" :is="field.type"></component>-->

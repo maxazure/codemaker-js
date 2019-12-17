@@ -65,6 +65,8 @@
 
     <div class="form-container">
       <el-card>
+        {{layouts}}
+        ___________
         {{ tasks }}
         <draggable :list="tasks" group="layouts" handle=".header">
           <el-card v-for="row of tasks" :key="row.id">

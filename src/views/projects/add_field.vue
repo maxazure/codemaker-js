@@ -19,14 +19,10 @@
           <el-input v-model="fieldForm.description" />
         </el-form-item>
         <el-form-item label="字段类型:">
-          <el-select v-model="fieldForm.field_type" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.value"
-              :value="item.value"
-            />
-          </el-select>
+          <array-select v-model="fieldForm.field_type" :options="fieldTypes" />
+        </el-form-item>
+        <el-form-item label="组件类型:">
+          <array-select v-model="fieldForm.ctype" :options="types" />
         </el-form-item>
         <el-form-item label="是否必填:">
           <el-switch
@@ -76,15 +72,42 @@
 <script>
 import { addDfield } from '@/api/dfield'
 import yCard from '@/components/yCard'
+import arraySelect from '@/components/array-select'
 
 export default {
-  components: { yCard },
+  components: { yCard,arraySelect },
   data() {
     return {
       title: '新字段',
-      fieldForm: { field_type: 'string' },
+      fieldForm: { field_type: 'string', ctype: 'dragInput' },
       rules: null,
-      options: [{ value: 'string' }, { value: 'integer' }, { value: 'boolean' }, { value: 'date' }]
+      fieldTypes: [{ value: 'string', label: 'string' }, { value: 'integer', label: 'integer' }, {
+        value: 'boolean',
+        label: 'boolean'
+      }, { value: 'date', label: 'date' }],
+      types: [{
+        value: 'dragInput',
+        label: '文本输入框'
+      }, {
+        value: 'dragTextarea',
+        label: '文本域输入框'
+      }, {
+        value: 'dragSelect',
+        label: '下拉框'
+      }, {
+        value: 'dragRadio',
+        label: '单选框'
+      }, {
+        value: 'dragCheckbox',
+        label: '多选框'
+      }, {
+        value: 'dragNumber',
+        label: '计数器'
+      }, {
+        value: 'dragDatepicker',
+        label: '日期选择'
+      }
+      ]
     }
   },
   created() {

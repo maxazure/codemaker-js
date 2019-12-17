@@ -4,6 +4,8 @@
   </el-select>
 </template>
 <script>
+import request from '../../utils/request'
+
 export default {
   components: {},
   props: { config: Object },
