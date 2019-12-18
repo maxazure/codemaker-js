@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="result" placeholder="请选择" @change="change">
+    <el-select v-model="result" placeholder="请选择" @input="change">
       <el-option
         v-for="item in options"
         :key="item.value"

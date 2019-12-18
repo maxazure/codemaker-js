@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     async get() {
-      const res = await request({ url: this.url, method: 'get' })
+      const res = await request({ url: this.url, method: 'get' });
       res.data.forEach(item => {
         this.options.push({ value: item.id, label: item.name })
       })

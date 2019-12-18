@@ -1,12 +1,12 @@
 <template>
-  <el-input v-model="value" type="textarea" placeholder="请输入" />
+  <el-input v-model="result" type="textarea" placeholder="请输入" @input="input" />
 </template>
 <script>
 export default {
   components: {},
   props: { value: String },
   data() {
-    return {}
+    return { result: this.value }
   },
   computed: {},
   watch: {},
@@ -14,7 +14,11 @@ export default {
   },
   mounted() {
   },
-  methods: {}
+  methods: {
+    input() {
+      this.$emit('input', this.result)
+    }
+  }
 }
 </script>
 

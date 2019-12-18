@@ -54,13 +54,13 @@ export default {
   },
   methods: {
     async api() {
-      this.$router.push({ path: '/widgets' })
+      this.$router.push({ path: '/widgets' });
       const res = await addWidget(this.widgetForm)
     },
     async submit(widgetForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'

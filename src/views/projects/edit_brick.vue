@@ -61,13 +61,13 @@ export default {
   },
   methods: {
     async api() {
-      const res = await putBrick(this.brickForm.id, this.brickForm)
+      const res = await putBrick(this.brickForm.id, this.brickForm);
       this.back()
     },
     async submit(brickForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'
@@ -81,7 +81,7 @@ export default {
       history.go(-1)
     },
     async get() {
-      const res = await getBrick(this.$route.query.id)
+      const res = await getBrick(this.$route.query.id);
       this.brickForm = res.data
     }
   }

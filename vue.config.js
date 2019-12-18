@@ -44,6 +44,11 @@ module.exports = {
         target: `http://123.207.179.135:3002`,
         changeOrigin: true,
         pathRewrite: { '^/api': '' }
+      },
+      '/testapi': {
+        target: `http://123.207.179.135:3000`,
+        changeOrigin: true,
+        pathRewrite: { '^/testapi': '' }
       }
     },
     after: require('./mock/mock-server.js')

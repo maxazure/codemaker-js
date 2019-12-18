@@ -1,16 +1,37 @@
 <template>
-  <el-radio-group v-model="value">
-    <el-radio :label="3">备选项</el-radio>
-    <el-radio :label="6">备选项</el-radio>
-    <el-radio :label="9">备选项</el-radio>
+  <el-radio-group v-model="result" @change="change">
+    <el-radio v-for="item of options" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
   </el-radio-group>
 </template>
 <script>
+
 export default {
-  data() {
-    return { value: '' }
+  props: {
+    value: String,
+    options:
+        {
+          type: Array,
+          require: false,
+          default: () =>
+            [
+              { value: '1', label: '选项1' },
+              { value: '2', label: '选项2' },
+              { value: '3', label: '选项3' }
+            ]
+        }
   },
-  methods: {}
+  data() {
+    return {
+      result: this.value
+    }
+  },
+  created() {
+  },
+  methods: {
+    change() {
+      this.$emit('input', this.result.toString())
+    }
+  }
 }
 </script>
 

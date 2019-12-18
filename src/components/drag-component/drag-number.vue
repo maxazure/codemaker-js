@@ -1,6 +1,6 @@
 <template>
   <el-input-number
-    v-model="value"
+    v-model="result"
     controls-position="right"
     :min="1"
     :max="100"
@@ -9,11 +9,13 @@
 </template>
 <script>
 export default {
+  props: { value: Number },
   data() {
-    return { value: '' }
+    return { result: this.value }
   },
   methods: {
     handleChange() {
+      this.$emit('input', this.result)
     }
   }
 }

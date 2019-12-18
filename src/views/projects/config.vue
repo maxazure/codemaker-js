@@ -39,7 +39,8 @@
             group="dfields"
           >
             <el-menu-item v-for="dfield of brick.dfields" :key="dfield.id" :index="dfield.id.toString()">
-              <div>{{ dfield.name }} {{ dfield.cnname }}
+              <div>
+                {{ dfield.cnname }}:&nbsp;{{dfield.ctype.slice(4)}}
               </div>
             </el-menu-item>
           </draggable>
@@ -50,10 +51,10 @@
       <el-card>
         <div slot="header" class="clearfix">
           <div style="float: right;height: 20px">
-            <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="reset">
+            <el-button style="padding: 5px;margin: 0" plain @click="reset">
               <span>重置</span>
             </el-button>
-            <el-button style="padding: 5px;margin: 0" icon="el-icon-minus" plain @click="save">
+            <el-button style="padding: 5px;margin: 0" type="primary" @click="save">
               <span>保存</span>
             </el-button>
           </div>
@@ -76,12 +77,17 @@
                   <div class="th">列</div>
                   <draggable :list="col.dfields" group="dfields">
                     <div v-for="dfield of col.dfields" :key="dfield.id" class="dfields">
-                      <el-row>
+                      <el-row :gutter="10">
                         <el-col :span="6">
                           <div class="label">{{ dfield.cnname }}:&nbsp;</div>
                         </el-col>
                         <el-col :span="18">
-                          <component :is="dfield.ctype" class="dfield" />
+                          <component
+                            :is="dfield.ctype"
+                            v-model="value"
+                            class="dfield"
+                            :options="dfield.options"
+                          />
                         </el-col>
                       </el-row>
                     </div>
@@ -97,6 +103,8 @@
 </template>
 <script>
 import { getBrick } from '../../api/brick'
+import request from '../../utils/request'
+
 import draggable from 'vuedraggable'
 import dragInput from '@/components/drag-component/drag-input'
 import dragSelect from '@/components/drag-component/drag-select'
@@ -119,6 +127,7 @@ export default {
   },
   data() {
     return {
+      value: '',
       brick: {},
       rows: [],
       layouts: [
@@ -137,14 +146,23 @@ export default {
   },
   methods: {
     async get() {
-      const res = await getBrick(this.$route.query.id)
-      this.brick = res.data
+      const res = await getBrick(this.$route.query.id);
+      this.brick = res.data;
+      this.brick.dfields.map(async(field) => {
+        if (field.api) {
+          this.$set(field, 'options', []);
+          const res = await request({ url: field.api, method: 'get' });
+          res.data.map((option) => {
+            field.options.push({ value: option.id, label: option.name })
+          })
+        }
+      })
     },
     async save() {
       console.log(this.rows)
     },
     reset() {
-      this.get()
+      this.get();
       this.rows = []
     },
     delRow(row) {
@@ -187,7 +205,9 @@ export default {
           padding: 10px;
 
           .label {
-            line-height: 40px
+            float: right;
+            line-height: 40px;
+            font-size: 13px;
           }
 
         }

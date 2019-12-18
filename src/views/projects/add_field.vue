@@ -73,57 +73,34 @@
 import { addDfield } from '@/api/dfield'
 import yCard from '@/components/yCard'
 import arraySelect from '@/components/array-select'
+import global from '@/components/Global'
 
 export default {
-  components: { yCard,arraySelect },
+  components: { yCard, arraySelect },
   data() {
     return {
       title: '新字段',
       fieldForm: { field_type: 'string', ctype: 'dragInput' },
+      fieldTypes: global.fieldTypes,
       rules: null,
-      fieldTypes: [{ value: 'string', label: 'string' }, { value: 'integer', label: 'integer' }, {
-        value: 'boolean',
-        label: 'boolean'
-      }, { value: 'date', label: 'date' }],
-      types: [{
-        value: 'dragInput',
-        label: '文本输入框'
-      }, {
-        value: 'dragTextarea',
-        label: '文本域输入框'
-      }, {
-        value: 'dragSelect',
-        label: '下拉框'
-      }, {
-        value: 'dragRadio',
-        label: '单选框'
-      }, {
-        value: 'dragCheckbox',
-        label: '多选框'
-      }, {
-        value: 'dragNumber',
-        label: '计数器'
-      }, {
-        value: 'dragDatepicker',
-        label: '日期选择'
-      }
-      ]
+      types: global.cpmponentTypes
     }
   },
   created() {
+    // this.init()
   },
   mounted() {
   },
   methods: {
     async api() {
-      this.fieldForm.brick_id = this.$route.query.id
-      const res = await addDfield(this.fieldForm)
+      this.fieldForm.brick_id = this.$route.query.id;
+      const res = await addDfield(this.fieldForm);
       this.back()
     },
     async submit(fieldForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'

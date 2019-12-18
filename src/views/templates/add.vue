@@ -76,13 +76,13 @@ export default {
   },
   methods: {
     async api() {
-      this.$router.push({ path: '/templates' })
+      this.$router.push({ path: '/templates' });
       const res = await addTemplate(this.templateForm)
     },
     async submit(templateForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'

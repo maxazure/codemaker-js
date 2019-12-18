@@ -65,13 +65,13 @@ export default {
   },
   methods: {
     async api() {
-      this.$router.push({ path: '/projects' })
+      this.$router.push({ path: '/projects' });
       const res = await addProject(this.projectForm)
     },
     async submit(projectForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'

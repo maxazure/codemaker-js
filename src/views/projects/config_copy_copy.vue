@@ -130,7 +130,7 @@ export default {
     // this.get()
   },
   mounted() {
-    const $list1 = this.$el.querySelector('.field-group')
+    const $list1 = this.$el.querySelector('.field-group');
 
     new Sortable.create($list1, {
       handle: '.field-item',
@@ -138,14 +138,14 @@ export default {
       group: 'fields',
       ghostClass: 'blue-background-class',
       onUpdate: (event) => {
-        console.log('event值为：', event, event.newIndex, event.oldIndex)
+        console.log('event值为：', event, event.newIndex, event.oldIndex);
         this.onUpEvent(event)
       }
     })
   },
   methods: {
     async get() {
-      const res = await getBrick(this.$route.query.id)
+      const res = await getBrick(this.$route.query.id);
       this.brick = res.data
     },
     add() {
@@ -165,7 +165,7 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            })
+            });
             this.getList()
           })
         })
@@ -198,18 +198,18 @@ export default {
       window.console.log(evt)
     },
     onUpEvent(e) {
-      console.log(e)
+      console.log(e);
       // var item = this.list1[e.oldIndex]
       // this.rows.splice(e.oldIndex, 1)
       // this.rows.splice(e.newIndex, 0, item)
       console.log('拖动后的数据显示', this.rows)
     },
     changeLayout(evt) {
-      console.log(evt)
+      console.log(evt);
       if (evt.added) {
-        const cols = evt.added.element.cols
+        const cols = evt.added.element.cols;
         for (let i = 0; i < cols.length; i++) {
-          const $col = this.$el.querySelector('.col' + i)
+          const $col = this.$el.querySelector('.col' + i);
           new Sortable.create($col, {
             handle: 'field-item',
             animation: 150,
@@ -217,7 +217,7 @@ export default {
             fallbackOnBody: true,
             ghostClass: 'blue-background-class',
             onUpdate: (event) => {
-              console.log('event值为：', event, event.newIndex, event.oldIndex)
+              console.log('event值为：', event, event.newIndex, event.oldIndex);
               this.onUpEvent(event)
             }
           })
@@ -225,7 +225,7 @@ export default {
       }
     },
     clickField(evt) {
-      console.log('cli')
+      console.log('cli');
       console.log(evt)
     },
     drag(evt) {

@@ -1,7 +1,9 @@
 <template>
   <div class="detail app-container">
-    <div class="bricks">
+    <div>
       <el-button style="margin: 12px;" type="primary" plain @click="add">新增模块</el-button>
+    </div>
+    <div class="bricks">
 
       <div v-for="item in list" :key="item.id">
         <el-card class="box-card">
@@ -28,6 +30,36 @@
             </el-table-column>
 
           </el-table>
+          <div style="float: right">
+            <el-dropdown>
+              <el-button type="text" size="mini" @click="log(item.id)">生成Rails<i
+                class="el-icon-arrow-down el-icon--right"
+              />&nbsp;&nbsp;
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>打包生成Rails</el-dropdown-item>
+                <el-dropdown-item>生成migration</el-dropdown-item>
+                <el-dropdown-item>生成controller.rb</el-dropdown-item>
+                <el-dropdown-item>生成index.jbuilder</el-dropdown-item>
+                <el-dropdown-item>生成show.jbuilder</el-dropdown-item>
+                <el-dropdown-item>生成model</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <el-dropdown>
+              <el-button type="text" size="mini" @click="log(item.id)">生成Vue<i
+                class="el-icon-arrow-down el-icon--right"
+              />
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>打包生成vue</el-dropdown-item>
+                <el-dropdown-item>生成index.vue</el-dropdown-item>
+                <el-dropdown-item>生成add.vue</el-dropdown-item>
+                <el-dropdown-item>生成edit.vue</el-dropdown-item>
+                <el-dropdown-item>生成api.js</el-dropdown-item>
+                <el-dropdown-item>生成router.js</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </el-card>
 
       </div>
@@ -54,7 +86,7 @@ export default {
   },
   methods: {
     async getList() {
-      const res = await getBricks(this.$route.query.id)
+      const res = await getBricks(this.$route.query.id);
       this.list = res.data
     },
     add() {
@@ -74,7 +106,7 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            })
+            });
             this.getList()
           })
         })
@@ -99,6 +131,9 @@ export default {
     },
     rowClick(row, column, event) {
       this.$router.push({ path: 'bricks/fields/edit', query: { id: row.id }})
+    },
+    log(o) {
+      console.log(o)
     }
   }
 }
@@ -107,9 +142,12 @@ export default {
 <style lang="scss">
   .detail {
     .bricks {
+      display: flex;
+      flex-wrap: wrap;
+
       .box-card {
         width: 500px;
-        float: left;
+        /*float: left;*/
         margin: 12px;
 
         .el-table {

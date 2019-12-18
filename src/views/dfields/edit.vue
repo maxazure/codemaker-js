@@ -66,17 +66,17 @@ export default {
   },
   methods: {
     async get() {
-      const response = await getDfield(this.$route.query.id)
+      const response = await getDfield(this.$route.query.id);
       this.dfieldForm = response.data
     },
     async api() {
-      this.$router.push({ path: '/dfields' })
+      this.$router.push({ path: '/dfields' });
       const res = await putDfield(this.dfieldForm.id, this.dfieldForm)
     },
     async submit(dfieldForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '修改成功',
             type: 'success'

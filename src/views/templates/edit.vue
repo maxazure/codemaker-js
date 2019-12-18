@@ -80,17 +80,17 @@ export default {
   },
   methods: {
     async get() {
-      const response = await getTemplate(this.$route.query.id)
+      const response = await getTemplate(this.$route.query.id);
       this.templateForm = response.data
     },
     async api() {
-      this.$router.push({ path: '/templates' })
+      this.$router.push({ path: '/templates' });
       const res = await putTemplate(this.templateForm.id, this.templateForm)
     },
     async submit(templateForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '修改成功',
             type: 'success'

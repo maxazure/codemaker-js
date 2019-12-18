@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     async get() {
-      const res = await getBrick(this.$route.query.id)
+      const res = await getBrick(this.$route.query.id);
       this.brick = res.data
     },
     add() {
@@ -174,7 +174,7 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            })
+            });
             this.getList()
           })
         })

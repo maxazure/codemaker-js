@@ -1,20 +1,27 @@
 <template>
-  <el-input v-model="value" placeholder="请输入" />
+  <el-input  v-model="result" placeholder="请输入"  @input="input" />
 </template>
 <script>
 export default {
   components: {},
   props: { value: String },
   data() {
-    return {}
+    return {
+      result: this.value
+    }
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   created() {
   },
   mounted() {
   },
-  methods: {}
+  methods: {
+    input() {
+      this.$emit('input', this.result)
+    }
+  }
 }
 </script>
 

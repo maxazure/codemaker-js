@@ -57,17 +57,17 @@ export default {
   },
   methods: {
     async get() {
-      const response = await getWidget(this.$route.query.id)
+      const response = await getWidget(this.$route.query.id);
       this.widgetForm = response.data
     },
     async api() {
-      this.$router.push({ path: '/widgets' })
+      this.$router.push({ path: '/widgets' });
       const res = await putWidget(this.widgetForm.id, this.widgetForm)
     },
     async submit(widgetForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '修改成功',
             type: 'success'

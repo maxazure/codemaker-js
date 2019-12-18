@@ -44,8 +44,8 @@ export default {
       const response = await getProjects({
         page: this.pagination.pageNumber,
         pagesize: this.pagination.pageSize
-      })
-      this.tableData = response.data
+      });
+      this.tableData = response.data;
       this.pagination.total = response.data.pagination.total
     },
 
@@ -69,7 +69,7 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            })
+            });
             this.getList()
           })
         })

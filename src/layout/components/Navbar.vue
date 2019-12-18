@@ -47,11 +47,11 @@ export default {
     },
     async logout() {
       // await this.$store.dispatch('user/logout')
-      await this.$store.dispatch('user/resetToken')
+      await this.$store.dispatch('user/resetToken');
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     back() {
-      this.$router.go(-1)
+      history.go(-1)
     }
   }
 }

@@ -63,13 +63,13 @@ export default {
   },
   methods: {
     async api() {
-      this.$router.push({ path: '/dfields' })
+      this.$router.push({ path: '/dfields' });
       const res = await addDfield(this.dfieldForm)
     },
     async submit(dfieldForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '添加成功',
             type: 'success'

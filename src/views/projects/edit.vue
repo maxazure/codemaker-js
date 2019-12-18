@@ -66,17 +66,17 @@ export default {
   },
   methods: {
     async get() {
-      const response = await getProject(this.$route.query.id)
+      const response = await getProject(this.$route.query.id);
       this.projectForm = response.data
     },
     async api() {
-      this.$router.push({ path: '/projects' })
+      this.$router.push({ path: '/projects' });
       const res = await putProject(this.projectForm.id, this.projectForm)
     },
     async submit(projectForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api()
+          this.api();
           this.$message({
             message: '修改成功',
             type: 'success'

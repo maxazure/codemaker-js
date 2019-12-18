@@ -1,33 +1,48 @@
 <template>
-  <el-select v-model="value" placeholder="请选择">
+  <el-select v-model="result" placeholder="请选择" @change="change">
     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
   </el-select>
 </template>
 <script>
-import request from '../../utils/request'
 
 export default {
   components: {},
-  props: { config: Object },
+  props: {
+    value: String, config: Object,
+    options: {
+      type: Array,
+      default: () => [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }]
+    }
+  },
   data() {
     return {
-      value: '',
-      options: []
+      result: this.value
     }
   },
   computed: {},
   watch: {},
   created() {
-    // this.get()
   },
   mounted() {
   },
   methods: {
-    async get() {
-      const res = await request({ url: this.config.url, method: 'get' })
-      res.data.forEach(item => {
-        this.options.push({ value: item.id, label: item.name })
-      })
+    change() {
+      this.$emit('input', this.result.toString())
     }
   }
 }
