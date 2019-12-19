@@ -9,10 +9,11 @@
         label-width='100px'
       >
         <el-row>
-      <% @brick.dfields.order('sort').each do |f|%>
+          <% @brick.dfields.order('sort').each do |f|%>
           <el-col :span="12">
-         <el-form-item label='<%= f[:cnname] %>:' prop='<%= f[:field_ame] %>'>
-          <component  :is='<%= @brick[:name]%>Form.<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>Form.<%= f[:field_ame] %>' :options="<%= @brick[:name]%>Form.options"/>
+         <el-form-item label='<%= f[:cnname] %>:' prop='<%= f[:name] %>'>
+          <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>Form.<%= f[:name] %>'
+           <% if f[:api] %>:options="<%= f[:name] %>Options" <%end%> />
         </el-form-item>
           </el-col>
 <%end%>
@@ -38,8 +39,14 @@ export default {
   },
   data() {
     return {
-    <%= @brick[:name]%>Form: {  },
-    rules: {<% @brick.dfields.each do |f|%><%= f[:field_ame] %>:[<% if f[:is_required] %>
+    <%= @brick[:name]%>Form: {},
+  //  apiList
+  <% @brick.dfields.order('sort').each do |f|%>
+    <% if f[:api] %>
+  <%= f[:name] %>Options:[],
+  <%end%> <%end%>
+    //  rules
+    rules: {<% @brick.dfields.each do |f|%><%= f[:name] %>:[<% if f[:is_required] %>
       {required:true,
         message:'请输入<%= f[:cnname] %>',
         trigger:'blur'},<%end%>
@@ -49,22 +56,33 @@ export default {
     <%end%>}
         }
   },
-  created() {this.get() },
+  created() {
+    this.get()
+  //    getApiList
+  <% @brick.dfields.order('sort').each do |f|%>
+  <% if f[:api] %>
+    this.get<%= f[:name] %>List()
+  <%end%> <%end%>
+
+  },
   mounted() {},
   methods: {
     async get() {
       const response = await get<%=titleize(@brick[:name])%>(this.$route.query.id);
       this.<%= @brick[:name]%>Form = response.data;
-      this.<%= @brick[:name]%>Form.map(async (item)=>{
-        if (item.api){
-          this.$set(item, 'options', [])
-          const res = await request({ url: item.api, method: 'get' })
-          res.data.map((option) => {
-            item.options.push({ value: option.id, label: option.name })
-          })
-        }
-      })
     },
+//    getApiList
+<% @brick.dfields.order('sort').each do |f|%>
+          <% if f[:api] %>
+          async get<%= f[:name] %>List(){
+                const response = await request({url:'<%= f[:api] %>',method:'get'})
+                response.data.map((option) => {
+                  this.<%= f[:name] %>Options.push({ value: option.id, label: option.name })
+                })
+          },
+          <%end%>
+<%end%>
+
     async api() {
       this.$router.push({ path: '/<%= @brick[:name_plural]%>' });
       const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>Form.id,this.<%= @brick[:name]%>Form);

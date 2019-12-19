@@ -4,7 +4,7 @@
     <y-table :tableData='tableData' :pagination='pagination' @changePage4List='getList'>
       <template>
         <% @brick.dfields.order('sort').each do |f| if f[:is_show_in_list]%>
-        <el-table-column prop='<%= f[:field_ame] %>' label='<%= f[:cnname] %>' <% if f[:width]%>width='<%= f[:width] %>px'<%end%> ></el-table-column>
+        <el-table-column prop='<%= f[:name] %>' label='<%= f[:cnname] %>' <% if f[:width]%>width='<%= f[:width] %>px'<%end%> ></el-table-column>
         <%end end%>
         <el-table-column label='操作' width='100px'>
           <template slot-scope='{row}'>

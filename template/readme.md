@@ -14,7 +14,7 @@
    end
  
    create_table "dfields", force: :cascade do |t|
-     t.string "field_ame"
+     t.string "name"
      t.string "field_type"
      t.boolean "is_required"
      t.boolean "is_show_in_list"
