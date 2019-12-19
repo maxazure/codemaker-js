@@ -59,6 +59,7 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="submit('fieldForm')">提交</el-button>
+          <el-button @click="del">删除</el-button>
           <el-button @click="back">返回</el-button>
         </el-form-item>
       </el-form>
@@ -69,7 +70,7 @@
 
 <script>
 import yCard from '@/components/yCard'
-import { getDfield, putDfield } from '../../api/dfield'
+import { delDfield, getDfield, putDfield } from '../../api/dfield'
 import arraySelect from '@/components/array-select'
 import global from '@/components/Global'
 
@@ -91,18 +92,18 @@ export default {
   },
   methods: {
     async get() {
-      const res = await getDfield(this.$route.query.id);
+      const res = await getDfield(this.$route.query.id)
       this.fieldForm = res.data
     },
     async api() {
-      this.fieldForm.project_id = this.$route.query.id;
-      const res = await putDfield(this.fieldForm.id, this.fieldForm);
+      this.fieldForm.project_id = this.$route.query.id
+      const res = await putDfield(this.fieldForm.id, this.fieldForm)
       this.back()
     },
     async submit(fieldForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api();
+          this.api()
           this.$message({
             message: '添加成功',
             type: 'success'
@@ -114,6 +115,10 @@ export default {
     },
     back() {
       history.go(-1)
+    },
+    async del() {
+      const res = await delDfield(this.$route.query.id)
+      this.back()
     }
   }
 }

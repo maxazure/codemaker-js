@@ -38,7 +38,7 @@
           <el-input v-model="templateForm.remark" />
         </el-form-item>
         <el-form-item label="模板内容:" prop="body">
-          <el-input v-model="templateForm.body" :rows="15" type="textarea" />
+          <el-input v-model="templateForm.body" :autosize="true" type="textarea" />
         </el-form-item>
         <el-form-item>
           <el-button @click="submit('templateForm')">提交</el-button>

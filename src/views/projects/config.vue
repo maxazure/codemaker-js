@@ -1,5 +1,5 @@
 <template>
-  <div class="detail app-container">
+  <div class="project-config app-container">
     <div class="nav">
       <el-menu
         default-active="1"
@@ -36,11 +36,12 @@
           <draggable
             :list="brick.dfields"
             class="dfields"
+
             group="dfields"
           >
             <el-menu-item v-for="dfield of brick.dfields" :key="dfield.id" :index="dfield.id.toString()">
               <div>
-                {{ dfield.cnname }}:&nbsp;{{dfield.ctype.slice(4)}}
+                {{ dfield.cnname }}:&nbsp;{{ dfield.ctype.slice(4) }}
               </div>
             </el-menu-item>
           </draggable>
@@ -106,24 +107,10 @@ import { getBrick } from '../../api/brick'
 import request from '../../utils/request'
 
 import draggable from 'vuedraggable'
-import dragInput from '@/components/drag-component/drag-input'
-import dragSelect from '@/components/drag-component/drag-select'
-import dragCheckbox from '@/components/drag-component/drag-checkbox'
-import dragDatepicker from '@/components/drag-component/drag-datepicker'
-import dragNumber from '@/components/drag-component/drag-number'
-import dragRadio from '@/components/drag-component/drag-radio'
-import dragTextarea from '@/components/drag-component/drag-textarea'
 
 export default {
   components: {
-    draggable,
-    dragInput,
-    dragSelect,
-    dragCheckbox,
-    dragDatepicker,
-    dragNumber,
-    dragRadio,
-    dragTextarea
+    draggable
   },
   data() {
     return {
@@ -146,12 +133,12 @@ export default {
   },
   methods: {
     async get() {
-      const res = await getBrick(this.$route.query.id);
-      this.brick = res.data;
+      const res = await getBrick(this.$route.query.id)
+      this.brick = res.data
       this.brick.dfields.map(async(field) => {
         if (field.api) {
-          this.$set(field, 'options', []);
-          const res = await request({ url: field.api, method: 'get' });
+          this.$set(field, 'options', [])
+          const res = await request({ url: field.api, method: 'get' })
           res.data.map((option) => {
             field.options.push({ value: option.id, label: option.name })
           })
@@ -162,7 +149,7 @@ export default {
       console.log(this.rows)
     },
     reset() {
-      this.get();
+      this.get()
       this.rows = []
     },
     delRow(row) {
@@ -176,7 +163,7 @@ export default {
       this.rows.splice(this.rows.indexOf(row), 1)
     },
     log(evt) {
-      console.log(evt)
+      console.log('event', evt)
     },
     deepClone(o) {
       return JSON.parse(JSON.stringify(o))
@@ -185,8 +172,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  .detail {
+<style scoped lang="scss">
+  .project-config {
     display: flex;
 
     .nav {
@@ -199,6 +186,7 @@ export default {
       .cols {
         .th {
           text-align: center;
+          color: #c4c4d6;
         }
 
         .dfields {

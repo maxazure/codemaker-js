@@ -65,7 +65,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'projects',
       component: () => import('@/views/projects'),
-      meta: { title: '项目管理', icon: 'tree' }
+      meta: { title: '项目管理', icon: 'example' }
     }, {
       path: 'edit',
       component: () => import('@/views/projects/edit'),
@@ -122,7 +122,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'templates',
       component: () => import('@/views/templates'),
-      meta: { title: '模板管理', icon: 'tree' }
+      meta: { title: '模板管理', icon: 'form' }
     },
     {
       path: 'edit',

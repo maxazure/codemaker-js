@@ -36,3 +36,4 @@ export function delBrick(id) {
     method: 'delete'
   })
 }
+
