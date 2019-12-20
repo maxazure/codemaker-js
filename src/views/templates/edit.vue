@@ -38,6 +38,9 @@
           <el-form-item label="备注:" prop="remark">
             <el-input v-model="templateForm.remark" />
           </el-form-item>
+          <el-form-item label="命令行:" prop="cmd">
+            <el-input v-model="templateForm.cmd" />
+          </el-form-item>
           <el-form-item label="模板内容:" prop="body">
             <el-input v-model="templateForm.body"  :autosize="true" type="textarea" />
           </el-form-item>
