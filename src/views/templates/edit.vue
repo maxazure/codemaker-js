@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="edit_tpl">
     <y-card :title="title">
       <template>
 
@@ -8,6 +8,7 @@
           :model="templateForm"
           :rules="rules"
           label-width="100px"
+          class="form_tpl"
         >
           <el-row>
             <el-col :span="8">
@@ -45,7 +46,7 @@
             <el-input v-model="templateForm.cmd_after" />
           </el-form-item>
           <el-form-item label="模板内容:" prop="body">
-            <el-input v-model="templateForm.body"  :autosize="true" type="textarea" />
+            <el-input v-model="templateForm.body" :autosize="true" type="textarea" />
           </el-form-item>
           <el-form-item>
             <el-button @click="submit('templateForm')">提交</el-button>
@@ -89,17 +90,17 @@ export default {
   },
   methods: {
     async get() {
-      const response = await getTemplate(this.$route.query.id);
+      const response = await getTemplate(this.$route.query.id)
       this.templateForm = response.data
     },
     async api() {
-      this.$router.push({ path: '/templates' });
+      this.$router.push({ path: '/templates' })
       const res = await putTemplate(this.templateForm.id, this.templateForm)
     },
     async submit(templateForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api();
+          this.api()
           this.$message({
             message: '修改成功',
             type: 'success'
@@ -116,5 +117,9 @@ export default {
 }
 </script>
 <style lang='scss' scope>
-
+  .edit_tpl {
+    .form_tpl {
+      padding: 30px;
+    }
+  }
 </style>

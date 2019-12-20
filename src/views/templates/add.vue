@@ -7,6 +7,7 @@
         :model="templateForm"
         :rules="rules"
         label-width="100px"
+        class="form_tpl"
       >
         <el-row>
           <el-col :span="8">
@@ -111,6 +112,9 @@ export default {
   .add {
     /*区分单卡片与多卡片*/
     /*min-height: 90vh;*/
+    .form_tpl{
+      padding: 30px;
+    }
   }
 
 </style>
