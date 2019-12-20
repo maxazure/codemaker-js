@@ -67,6 +67,9 @@ export default {
       }, {
         value: 'vue',
         label: 'vue'
+      }, {
+        value: 'other',
+        label: 'other'
       }]
     }
   },
