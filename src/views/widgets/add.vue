@@ -14,11 +14,11 @@
         <el-form-item label="控件类型:" prop="cnname">
           <el-input v-model="widgetForm.widget_type" />
         </el-form-item>
-        <el-form-item label="配置内容:" prop="description">
-          <el-input v-model="widgetForm.config2" type="textarea" :rows="3" />
-        </el-form-item>
         <el-form-item label="代码:" prop="Rails根目录">
-          <el-input v-model="widgetForm.code" type="textarea" :rows="3" />
+          <el-input v-model="widgetForm.code" type="textarea" autosize="true" />
+        </el-form-item>
+        <el-form-item label="配置内容:" prop="description">
+          <el-input v-model="widgetForm.config2" type="textarea" :rows="5" />
         </el-form-item>
         <el-form-item label="备注:" prop="VUE根目录">
           <el-input v-model="widgetForm.remark" />
@@ -57,6 +57,7 @@ export default {
       this.$router.push({ path: '/widgets' });
       const res = await addWidget(this.widgetForm)
     },
+
     async submit(widgetForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {

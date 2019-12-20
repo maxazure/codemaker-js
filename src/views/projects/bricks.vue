@@ -9,6 +9,7 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span style="line-height: 40px">{{ brick.name }}/{{ brick.cnname }}</span>
+            <div >{{brick.description}}</div>
             <div style="float: right">
               <el-button type="text" size="mini" @click="edit(brick.id)">修改</el-button>
               <el-button type="text" size="mini" @click="del(brick.id)">删除</el-button>
@@ -37,9 +38,10 @@
               />&nbsp;&nbsp;
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item :command="{brickId:brick.id,type:'rails'}">打包生成Rails</el-dropdown-item>
+                <el-dropdown-item :command="{brickId:brick.id,type:'rails',index:'1'}">生成到Rails目录</el-dropdown-item>
+                <el-dropdown-item :command="{brickId:brick.id,type:'rails',index:'2'}">打包生成Rails</el-dropdown-item>
                 <el-dropdown-item v-for="item of railList" :key="item.id" :command="{brickId:brick.id ,tplId:item.id}">
-                  {{item.remark }}
+                  {{ item.remark }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -49,9 +51,8 @@
               />
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item :command="{brickId:brick.id,type:'vue'}">
-                  打包生成vue
-                </el-dropdown-item>
+                <el-dropdown-item :command="{brickId:brick.id,type:'vue',index:'1'}">生成到vue目录</el-dropdown-item>
+                <el-dropdown-item :command="{brickId:brick.id,type:'vue',index:'2'}">打包生成vue</el-dropdown-item>
                 <el-dropdown-item v-for="item of vueList" :key="item.id" :command="{brickId:brick.id ,tplId:item.id}">{{
                   item.remark }}
                 </el-dropdown-item>
@@ -72,7 +73,13 @@
 <script>
 import { delBrick, getBricks } from '../../api/brick'
 import { debounce } from '../../utils'
-import { getGenerateCode, getGeneratorBatch, getGeneratorListRails, getGeneratorListVue } from '../../api/generate'
+import {
+  getGenerateCode,
+  getGeneratorBatch,
+  getGeneratorBatchDir,
+  getGeneratorListRails,
+  getGeneratorListVue
+} from '../../api/generate'
 
 export default {
   components: {},
@@ -162,8 +169,18 @@ export default {
       console.log(o)
     },
     async generate(evt) {
-      if (evt.type) {
-        const res = this.getAllVue(evt.brickId, evt.type)
+      if (evt.index) {
+        if (evt.index === '1') {
+          const res = await getGeneratorBatchDir(evt.brickId, evt.type)
+          this.$message({
+            message: `生成成功
+            ${res}`,
+            type: 'success'
+          })
+        }
+        if (evt.index === '2') {
+          const res = this.getAllVue(evt.brickId, evt.type)
+        }
         return
       }
       const res = await getGenerateCode(evt.brickId, evt.tplId)
@@ -182,6 +199,7 @@ export default {
       //  todo 点击链接后自动关闭对话框
       })
     }
+
   }
 }
 </script>

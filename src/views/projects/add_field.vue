@@ -74,33 +74,49 @@ import { addDfield } from '@/api/dfield'
 import yCard from '@/components/yCard'
 import arraySelect from '@/components/array-select'
 import global from '@/components/Global'
+import { getWidgets } from '../../api/widget'
 
 export default {
   components: { yCard, arraySelect },
   data() {
     return {
       title: '新字段',
-      fieldForm: { field_type: 'string', ctype: 'dragInput' },
+      fieldForm: {
+        field_type: 'string',
+        ctype: 'dragInput',
+        is_show_in_list: true,
+        is_editable: true,
+        is_required: true
+      },
       fieldTypes: global.fieldTypes,
       rules: null,
-      types: global.cpmponentTypes
+      types: []
     }
   },
   created() {
     // this.init()
+    this.getWidgets()
   },
   mounted() {
   },
   methods: {
+    async getWidgets() {
+      const res = await getWidgets()
+      console.log(res)
+      res.data.map((item) => {
+        this.types.push({ value: item.widget_type, label: item.name })
+      })
+    },
+
     async api() {
-      this.fieldForm.brick_id = this.$route.query.id;
-      const res = await addDfield(this.fieldForm);
+      this.fieldForm.brick_id = this.$route.query.id
+      const res = await addDfield(this.fieldForm)
       this.back()
     },
     async submit(fieldForm) {
       this.$refs.yForm.validate(valid => {
         if (valid) {
-          this.api();
+          this.api()
           this.$message({
             message: '添加成功',
             type: 'success'

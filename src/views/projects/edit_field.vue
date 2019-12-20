@@ -73,6 +73,7 @@ import yCard from '@/components/yCard'
 import { delDfield, getDfield, putDfield } from '../../api/dfield'
 import arraySelect from '@/components/array-select'
 import global from '@/components/Global'
+import { getWidgets } from '../../api/widget'
 
 export default {
   components: { yCard, arraySelect },
@@ -82,11 +83,12 @@ export default {
       fieldForm: {},
       rules: null,
       fieldTypes: global.fieldTypes,
-      types: global.cpmponentTypes
+      types: []
     }
   },
   created() {
     this.get()
+    this.getWidgets()
   },
   mounted() {
   },
@@ -99,6 +101,13 @@ export default {
       this.fieldForm.project_id = this.$route.query.id
       const res = await putDfield(this.fieldForm.id, this.fieldForm)
       this.back()
+    },
+    async getWidgets() {
+      const res = await getWidgets()
+      console.log(res)
+      res.data.map((item) => {
+        this.types.push({ value: item.widget_type, label: item.name })
+      })
     },
     async submit(fieldForm) {
       this.$refs.yForm.validate(valid => {

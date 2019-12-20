@@ -29,3 +29,9 @@ export function getGeneratorBatch(brickId, type) {
     method: 'get'
   })
 }
+export function getGeneratorBatchDir(brickId, type) {
+  return request({
+    url: `api/generator/batch1/${brickId}?t=${type}`,
+    method: 'get'
+  })
+}
