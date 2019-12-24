@@ -33,13 +33,16 @@ new Vue({
   store,
   render: h => h(App)
 })
-// 自定义组件
+// !@#$%^&*自定义组件
 import dragInput from '@/components/drag-component/drag-input'
 import dragSelect from '@/components/drag-component/drag-select'
 import dragCheckbox from '@/components/drag-component/drag-checkbox'
 import dragDatepicker from '@/components/drag-component/drag-datepicker'
 import dragNumber from '@/components/drag-component/drag-number'
 import dragRadio from '@/components/drag-component/drag-radio'
+import dragText from '@/components/drag-component/drag-text'
+import dragSlider from '@/components/drag-component/drag-slider'
+import dragUpload from '@/components/drag-component/drag-upload'
 
 Vue.component('dragRadio', dragRadio)
 Vue.component('dragInput', dragInput)
@@ -47,6 +50,9 @@ Vue.component('dragSelect', dragSelect)
 Vue.component('dragCheckbox', dragCheckbox)
 Vue.component('dragDatepicker', dragDatepicker)
 Vue.component('dragNumber', dragNumber)
+Vue.component('dragText', dragText)
+Vue.component('dragSlider', dragSlider)
+Vue.component('dragUpload', dragUpload)
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
@@ -54,7 +60,6 @@ Vue.component('dragNumber', dragNumber)
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-
 
 import dragTextarea from '@/components/drag-component/drag-textarea'
 

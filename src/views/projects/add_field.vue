@@ -111,6 +111,7 @@ export default {
     async api() {
       this.fieldForm.brick_id = this.$route.query.id
       const res = await addDfield(this.fieldForm)
+      // todo 临时注释，记得反注释
       this.back()
     },
     async submit(fieldForm) {

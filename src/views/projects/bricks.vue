@@ -4,12 +4,11 @@
       <el-button style="margin: 12px;" type="primary" plain @click="add">新增模块</el-button>
     </div>
     <div class="bricks">
-
       <div v-for="brick in bricks" :key="brick.id">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span style="line-height: 40px">{{ brick.name }}/{{ brick.cnname }}</span>
-            <div >{{brick.description}}</div>
+            <div style="font-size: small">{{ brick.description }}</div>
             <div style="float: right">
               <el-button type="text" size="mini" @click="edit(brick.id)">修改</el-button>
               <el-button type="text" size="mini" @click="del(brick.id)">删除</el-button>
@@ -72,7 +71,6 @@
 </template>
 <script>
 import { delBrick, getBricks } from '../../api/brick'
-import { debounce } from '../../utils'
 import {
   getGenerateCode,
   getGeneratorBatch,
@@ -89,7 +87,8 @@ export default {
       bricks: [],
       railList: [],
       vueList: [],
-      code: ''
+      code: '',
+      uploadType: 'photo'
     }
   },
   computed: {},
