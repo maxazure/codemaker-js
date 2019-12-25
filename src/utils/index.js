@@ -107,7 +107,7 @@ export function param2Obj(url) {
     '"}'
   )
 }
-
+/* 防抖*/
 export function debounce(fn, wait) {
   let timer; let timeStamp = 0
   let context, args
@@ -137,3 +137,4 @@ export function debounce(fn, wait) {
     timeStamp = now
   }
 }
+

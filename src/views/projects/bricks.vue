@@ -104,6 +104,24 @@ export default {
     async getList() {
       const res = await getBricks(this.$route.query.id)
       this.bricks = res.data
+      // order by brick.name
+      this.bricks.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+      // order by bricks.dfileds.name
+      this.bricks.map(item => {
+        item.dfields.sort((a, b) => {
+          if (a.name > b.name) {
+            return 1
+          } else {
+            return -1
+          }
+        })
+      })
     },
     async getGeneratorListRails() {
       const res = await getGeneratorListRails()
@@ -195,7 +213,7 @@ export default {
       const oldUrl = rgx.exec(res)[0].slice(6, -1)
       this.$alert(`<a href="/api${oldUrl} " style="color:#409EFF">点击此处下载</a>`, '下载', {
         dangerouslyUseHTMLString: true
-      //  todo 点击链接后自动关闭对话框
+        //  todo 点击链接后自动关闭对话框
       })
     }
 

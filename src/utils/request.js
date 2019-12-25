@@ -77,6 +77,7 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     ajaxAfter()
     return res
+    // 当返回数据没有data与code时，不作处理
     /*   if (res.code !== 200) {
          Message({
            message: res.message || 'Error',

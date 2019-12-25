@@ -1,9 +1,13 @@
 <template>
-  <el-slider v-model="result" @change="change" />
+  <el-slider v-model="result" :min="min" :max="max" @change="change" />
 </template>
 <script>
 export default {
-  props: { value: Number },
+  props: {
+    value: Number,
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 100 }
+  },
   data() {
     return {
       result: this.value
