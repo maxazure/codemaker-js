@@ -58,6 +58,16 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/pos',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'Pos',
+      component: () => import('@/views/pos/index'),
+      meta: { title: '收银台', icon: 'example' }
+    }]
+  },
+  {
     path: '/projects',
     name: 'projects',
     redirect: '/projects/index',
