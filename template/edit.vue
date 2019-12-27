@@ -13,7 +13,10 @@
           <el-col :span="12">
          <el-form-item label='<%= f[:cnname] %>:' prop='<%= f[:name] %>'>
           <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>Form.<%= f[:name] %>'
-           <% if f[:api] %>:options="<%= f[:name] %>Options" <%end%> />
+           <% if f[:api] %>:options="<%= f[:name] %>Options" <%end%>
+
+           <%= f[:c_prop_config] %>
+           />
         </el-form-item>
           </el-col>
 <%end%>

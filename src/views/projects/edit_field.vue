@@ -51,7 +51,6 @@
               <el-form-item label="组件类型:">
                 <array-select v-model="fieldForm.ctype" :options="types" />
               </el-form-item>
-              <!--              todo 增加接口-->
               <el-form-item label="组件属性配置:">
                 <el-input v-model="fieldForm.c_prop_config" placeholder="注意英文状态下输入" />
               </el-form-item>
