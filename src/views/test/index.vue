@@ -2,6 +2,8 @@
   <div class="">{{ result }}*****************{{ text }}</div>
 </template>
 <script>
+import { numberToString } from '../../utils'
+
 export default {
   data() {
     return {
@@ -289,8 +291,12 @@ export default {
   },
   created() {
     this.init()
+    this.toString()
   },
   methods: {
+    toString() {
+      console.log(numberToString())
+    },
     init() {
       const map = new Map()
       const list = this.text.split('*')
