@@ -32,7 +32,6 @@
               <array-select v-model="fieldForm.field_type" :options="fieldTypes" />
             </el-form-item>
           </el-col>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="排序:">
                 <el-input v-model="fieldForm.sort" />
@@ -43,7 +42,6 @@
                 <el-input v-model="fieldForm.api" />
               </el-form-item>
             </el-col>
-          </el-row>
         </el-row>
         <el-row>
           <el-col :span="24">

@@ -1,6 +1,6 @@
 <template>
   <el-upload
-    class="drag-upload-uploader"
+    class="y-upload-uploader"
     :action="url"
     :on-success="handleAvatarSuccess"
     :show-file-list="type === 'file'?true:false"
@@ -9,8 +9,8 @@
       <el-button size="small" type="primary">点击上传</el-button>
     </div>
     <div v-if="type === 'photo'" class="photo">
-      <img v-if="imageUrl" :src="imageUrl" class="drag-upload">
-      <i v-else class="el-icon-plus drag-upload-uploader-icon" />
+      <img v-if="imageUrl" :src="imageUrl" class="y-upload">
+      <i v-else class="el-icon-plus y-upload-uploader-icon" />
     </div>
   </el-upload>
 </template>
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" >
-  .drag-upload-uploader .el-upload {
+  y-upload-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -44,11 +44,11 @@ export default {
     overflow: hidden;
   }
 
-  .drag-upload-uploader .el-upload:hover {
+  y-upload-uploader .el-upload:hover {
     border-color: #409EFF;
   }
 
-    .drag-upload-uploader-icon {
+    y-upload-uploader-icon {
       font-size: 28px;
       color: #8c939d;
       width: 178px;
@@ -57,7 +57,7 @@ export default {
       text-align: center;
     }
 
-    .drag-upload {
+    y-upload {
       width: 178px;
       height: 178px;
       display: block;

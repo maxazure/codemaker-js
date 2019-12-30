@@ -41,7 +41,7 @@
           >
             <el-menu-item v-for="dfield of brick.dfields" :key="dfield.id" :index="dfield.id.toString()">
               <div>
-                {{ dfield.cnname }}:&nbsp;{{ dfield.ctype.slice(4) }}
+                {{ dfield.cnname }}:&nbsp;{{ dfield.ctype }}
               </div>
             </el-menu-item>
           </draggable>

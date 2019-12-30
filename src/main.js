@@ -33,26 +33,28 @@ new Vue({
   store,
   render: h => h(App)
 })
-// !@#$%^&*自定义组件
-import dragInput from '@/components/drag-component/drag-input'
-import dragSelect from '@/components/drag-component/drag-select'
-import dragCheckbox from '@/components/drag-component/drag-checkbox'
-import dragDatepicker from '@/components/drag-component/drag-datepicker'
-import dragNumber from '@/components/drag-component/drag-number'
-import dragRadio from '@/components/drag-component/drag-radio'
-import dragText from '@/components/drag-component/drag-text'
-import dragSlider from '@/components/drag-component/drag-slider'
-import dragUpload from '@/components/drag-component/drag-upload'
 
-Vue.component('dragRadio', dragRadio)
-Vue.component('dragInput', dragInput)
-Vue.component('dragSelect', dragSelect)
-Vue.component('dragCheckbox', dragCheckbox)
-Vue.component('dragDatepicker', dragDatepicker)
-Vue.component('dragNumber', dragNumber)
-Vue.component('dragText', dragText)
-Vue.component('dragSlider', dragSlider)
-Vue.component('dragUpload', dragUpload)
+import YInput from '@/components/yComponent/yInput'
+import YSelect from '@/components/yComponent/ySelect'
+import YCheckbox from '@/components/yComponent/yCheckbox'
+import YDatepicker from '@/components/yComponent/yDatepicker'
+import YNumber from '@/components/yComponent/yNumber'
+import YRadio from '@/components/yComponent/yRadio'
+import YText from '@/components/yComponent/yText'
+import YSlider from '@/components/yComponent/ySlider'
+import YUpload from '@/components/yComponent/yUpload'
+import YTextarea from '@/components/yComponent/yTextarea'
+
+Vue.component('YRadio', YRadio)
+Vue.component('YInput', YInput)
+Vue.component('YSelect', YSelect)
+Vue.component('YCheckbox', YCheckbox)
+Vue.component('YDatepicker', YDatepicker)
+Vue.component('YNumber', YNumber)
+Vue.component('YText', YText)
+Vue.component('YSlider', YSlider)
+Vue.component('YUpload', YUpload)
+Vue.component('YTextarea', YTextarea)
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
@@ -61,6 +63,3 @@ Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
-import dragTextarea from '@/components/drag-component/drag-textarea'
-
-Vue.component('dragTextarea', dragTextarea)

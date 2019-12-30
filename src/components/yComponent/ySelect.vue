@@ -1,6 +1,18 @@
 <template>
-  <el-select v-model="result" placeholder="请选择" @change="change">
-    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+  <el-select
+    v-model="result"
+    placeholder="请选择"
+    :filterable="filterable"
+    @change="change"
+    @keyup.enter.native="changeInput"
+    @blur="changeInput"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
   </el-select>
 </template>
 <script>
@@ -8,7 +20,7 @@
 export default {
   components: {},
   props: {
-    value: String, config: Object,
+    value: String, config: Object, filterable: Boolean,
     options: {
       type: Array,
       default: () => [{
@@ -35,13 +47,22 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    value(val) {
+      this.result = val
+    }
+  },
   created() {
   },
   mounted() {
   },
   methods: {
     change() {
+      this.$emit('input', this.result.toString())
+    },
+    changeInput(e) {
+      // todo tab键无效
+      this.result = e.target.value
       this.$emit('input', this.result.toString())
     }
   }

@@ -126,7 +126,7 @@ export default {
       title: '新字段',
       fieldForm: {
         field_type: 'string',
-        ctype: 'dragInput',
+        ctype: 'YInput',
         is_show_in_list: true,
         is_editable: true,
         is_required: true

@@ -2,18 +2,14 @@
   <el-input-number
     v-model="result"
     controls-position="right"
-    :min="min"
-    :max="max"
+    :min="1"
+    :max="100"
     @change="handleChange"
   />
 </template>
 <script>
 export default {
-  props: {
-    value: Number,
-    min: { type: Number, default: () => 1 },
-    max: { type: Number, default: () => 100 }
-  },
+  props: { value: Number },
   data() {
     return { result: this.value }
   },
@@ -26,6 +22,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .drag-number {
+  y-number {
   }
 </style>
