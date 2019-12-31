@@ -7,10 +7,14 @@ const fieldTypes = [
     value: 'boolean',
     label: 'boolean'
   },
-  { value: 'date', label: 'date' }];
+  { value: 'date', label: 'date' },
+  {
+    value: 'float', label: 'float'
+  }
+]
 
 export default {
-    fieldTypes
+  fieldTypes
 }
 
 </script>

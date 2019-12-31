@@ -87,8 +87,10 @@ export default {
 <%end%>
 
     async api() {
-      this.$router.push({ path: '/<%= @brick[:name_plural]%>' });
       const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>Form.id,this.<%= @brick[:name]%>Form);
+      if(res.code === '200') {
+      this.$router.push({ path: '/<%= @brick[:name_plural]%>' });
+      }
     },
     async submit(<%= @brick[:name]%>Form) {
       this.$refs.yForm.validate(valid => {
