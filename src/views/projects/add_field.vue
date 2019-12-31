@@ -129,7 +129,7 @@ export default {
         ctype: 'YInput',
         is_show_in_list: true,
         is_editable: true,
-        is_required: true
+        is_required: false
       },
       fieldTypes: global.fieldTypes,
       rules: null,
