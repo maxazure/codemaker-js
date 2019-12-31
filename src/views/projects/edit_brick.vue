@@ -30,6 +30,10 @@
           <el-input v-model="brickForm.api_path" />
         </el-form-item>
 
+        <el-form-item label="类型:" prop="type">
+          <el-input v-model="brickForm.type" />
+        </el-form-item>
+
         <el-form-item>
           <el-button @click="submit('brickForm')">提交</el-button>
           <el-button @click="back">返回</el-button>
