@@ -89,7 +89,7 @@ export default {
     async api() {
       const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>Form.id,this.<%= @brick[:name]%>Form);
       if(res.code === '200') {
-      this.$router.push({ path: '/<%= @brick[:name_plural]%>' });
+      this.$router.push({ path: '<%= @brick[:parent_dir] %>/<%= @brick[:name_plural]%>' });
       }
     },
     async submit(<%= @brick[:name]%>Form) {
@@ -106,7 +106,7 @@ export default {
       });
     },
     back() {
-      this.$router.push({ path: '/<%= @brick[:name_plural]%>' });
+      history.back()
     }
   }
 };
