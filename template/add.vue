@@ -42,10 +42,8 @@ export default {
     return {
       <%= @brick[:name]%>Form: {  },
     //  apiList
-  <% @brick.dfields.order('sort').each do |f|%>
-    <% if f[:api] %>
-  <%= f[:name] %>Options:[],
-  <%end%> <%end%>
+  <% @brick.dfields.order('sort').each do |f|%> <% if f[:api] %>
+  <%= f[:name] %>Options:[],<%end%> <%end%>
 
       rules: {<% @brick.dfields.each do |f|%><%= f[:name] %>:[<% if f[:is_required] %>
         {required:true,
@@ -61,9 +59,7 @@ export default {
     //    getApiList
   <% @brick.dfields.order('sort').each do |f|%>
     <% if f[:api] %>
-    this.get<%= f[:name] %>List()
-    <%end%> <%end%>
-
+    this.get<%= f[:name] %>List() <%end%> <%end%>
   },
   mounted() {},
   methods: {
@@ -86,20 +82,13 @@ export default {
         }
       });
     },
-
 //    getApiList
-<% @brick.dfields.order('sort').each do |f|%>
-<% if f[:api] %>
-async get<%= f[:name] %>List(){
-  const response = await request({url:'<%= f[:api] %>',method:'get'})
-  response.data.map((option) => {
-    this.<%= f[:name] %>Options.push({ value: option.id, label: option.name })
-  })
-},
+<% @brick.dfields.order('sort').each do |f|%> <% if f[:api] %>
+    async get<%= f[:name] %>List(){
+      const response = await request({url:'<%= f[:api] %>',method:'get'})
+      this.<%= f[:name] %>Options =response.data
+    },<%end%>
 <%end%>
-<%end%>
-
-
 
   back() {
     history.back()

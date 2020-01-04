@@ -75,15 +75,11 @@ export default {
       this.<%= @brick[:name]%>Form = response.data;
     },
 //    getApiList
-<% @brick.dfields.order('sort').each do |f|%>
-          <% if f[:api] %>
+<% @brick.dfields.order('sort').each do |f|%><% if f[:api] %>
           async get<%= f[:name] %>List(){
                 const response = await request({url:'<%= f[:api] %>',method:'get'})
-                response.data.map((option) => {
-                  this.<%= f[:name] %>Options.push({ value: option.id, label: option.name })
-                })
-          },
-          <%end%>
+                this.<%= f[:name] %>Options = response.data
+          },<%end%>
 <%end%>
 
     async api() {
