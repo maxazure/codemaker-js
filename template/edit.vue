@@ -3,8 +3,8 @@
     <el-card class='box-card'>
       <h3>修改<%= @brick[:cnname] %></h3>
       <el-form
-        ref='yForm'
-        :model='<%= @brick[:name]%>Form'
+        ref='<%= @brick[:name]%>EditForm'
+        :model='<%= @brick[:name]%>EditForm'
         :rules='rules'
         label-width='100px'
       >
@@ -12,7 +12,7 @@
           <% @brick.dfields.order('sort').each do |f|%>
           <el-col :span="12">
          <el-form-item label='<%= f[:cnname] %>:' prop='<%= f[:name] %>'>
-          <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>Form.<%= f[:name] %>'
+          <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>EditForm.<%= f[:name] %>'
            <% if f[:api] %>:options="<%= f[:name] %>Options" <%end%>
 
            <%= f[:c_prop_config] %>
@@ -22,7 +22,7 @@
 <%end%>
           <el-col :span="24">
         <el-form-item>
-          <el-button @click="submit('<%= @brick[:name]%>Form')">提交</el-button>
+          <el-button @click="submit">提交</el-button>
           <el-button @click='back'>返回</el-button>
         </el-form-item>
           </el-col>
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-    <%= @brick[:name]%>Form: {},
+    <%= @brick[:name]%>EditForm: {},
   //  apiList
   <% @brick.dfields.order('sort').each do |f|%>
     <% if f[:api] %>
@@ -71,25 +71,25 @@ export default {
   mounted() {},
   methods: {
     async get() {
-      const response = await get<%=titleize(@brick[:name])%>(this.$route.query.id);
-      this.<%= @brick[:name]%>Form = response.data;
+      const res = await get<%=titleize(@brick[:name])%>(this.$route.query.id);
+      this.<%= @brick[:name]%>EditForm = res.data;
     },
 //    getApiList
 <% @brick.dfields.order('sort').each do |f|%><% if f[:api] %>
           async get<%= f[:name] %>List(){
-                const response = await request({url:'<%= f[:api] %>',method:'get'})
-                this.<%= f[:name] %>Options = response.data
+                const res = await request({url:'<%= f[:api] %>',method:'get'})
+                this.<%= f[:name] %>Options = res.data
           },<%end%>
 <%end%>
 
     async api() {
-      const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>Form.id,this.<%= @brick[:name]%>Form);
+      const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>EditForm.id,this.<%= @brick[:name]%>EditForm);
       if(res.code === '200') {
       this.$router.push({ path: '<%= @brick[:parent_dir] %>/<%= @brick[:name_plural]%>' });
       }
     },
-    async submit(<%= @brick[:name]%>Form) {
-      this.$refs.yForm.validate(valid => {
+    async submit() {
+      this.$refs.<%= @brick[:name]%>EditForm.validate(valid => {
         if (valid) {
           this.api();
           this.$message({

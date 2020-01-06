@@ -36,12 +36,12 @@
     },
     methods: {
       async getList() {
-        const response = await get<%=titleize(@brick[:name_plural])%>({
+        const res = await get<%=titleize(@brick[:name_plural])%>({
           page: this.pagination.pageNumber,
           pagesize: this.pagination.pageSize
         });
-        this.tableData = response.data.list;
-        this.pagination.total = parseInt(response.data.pagination.total);
+        this.tableData = res.data.list;
+        this.pagination.total = parseInt(res.data.pagination.total);
       },
 
       add() {
@@ -57,7 +57,7 @@
           type: 'warning'
         })
           .then(() => {
-            del<%=titleize(@brick[:name])%>(id).then(response => {
+            del<%=titleize(@brick[:name])%>(id).then(res => {
               this.$message({
                 type: 'success',
                 message: '删除成功!'

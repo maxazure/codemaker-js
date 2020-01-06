@@ -3,17 +3,16 @@
     <el-card class='box-card'>
       <h3>新<%= @brick[:cnname] %></h3>
       <el-form
-        ref='yForm'
-        :model='<%= @brick[:name]%>Form'
+        ref='<%= @brick[:name]%>AddForm'
+        :model='<%= @brick[:name]%>AddForm'
         :rules='rules'
         label-width='100px'
-
       >
         <el-row>
           <% @brick.dfields.order('sort').each do |f|%>
           <el-col :span="12">
             <el-form-item label='<%= f[:cnname] %>:' prop='<%= f[:name] %>'>
-              <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>Form.<%= f[:name] %>'
+              <component  is='<%= f[:ctype] %>'  v-model='<%= @brick[:name]%>AddForm.<%= f[:name] %>'
               <% if f[:api] %>:options="<%= f[:name] %>Options" <%end%> />
 
             </el-form-item>
@@ -21,7 +20,7 @@
           <%end%>
         <el-col :span="24">
         <el-form-item>
-          <el-button @click="submit('<%= @brick[:name]%>Form')">提交</el-button>
+          <el-button @click="submit">提交</el-button>
           <el-button @click='back'>返回</el-button>
         </el-form-item>
         </el-col>
@@ -40,7 +39,7 @@ export default {
   },
   data() {
     return {
-      <%= @brick[:name]%>Form: {  },
+      <%= @brick[:name]%>AddForm: {  },
     //  apiList
   <% @brick.dfields.order('sort').each do |f|%> <% if f[:api] %>
   <%= f[:name] %>Options:[],<%end%> <%end%>
@@ -64,13 +63,13 @@ export default {
   mounted() {},
   methods: {
     async api() {
-      const res = await add<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>Form);
+      const res = await add<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>AddForm);
       if (res.code === '200') {
       this.$router.push({ path: '<%= @brick[:parent_dir] %>/<%= @brick[:name_plural]%>' });
       }
     },
-    async submit(<%= @brick[:name]%>Form) {
-      this.$refs.yForm.validate(valid => {
+    async submit() {
+      this.$refs.<%= @brick[:name]%>AddForm.validate(valid => {
         if (valid) {
           this.api();
           this.$message({
@@ -85,12 +84,12 @@ export default {
 //    getApiList
 <% @brick.dfields.order('sort').each do |f|%> <% if f[:api] %>
     async get<%= f[:name] %>List(){
-      const response = await request({url:'<%= f[:api] %>',method:'get'})
-      this.<%= f[:name] %>Options =response.data
+      const res = await request({url:'<%= f[:api] %>',method:'get'})
+      this.<%= f[:name] %>Options =res.data
     },<%end%>
 <%end%>
 
-  back() {
+    back() {
     history.back()
     }
   }

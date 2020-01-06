@@ -32,16 +32,16 @@
               <array-select v-model="fieldForm.field_type" :options="fieldTypes" />
             </el-form-item>
           </el-col>
-            <el-col :span="12">
-              <el-form-item label="排序:">
-                <el-input v-model="fieldForm.sort" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="API数据接口:">
-                <el-input v-model="fieldForm.api" />
-              </el-form-item>
-            </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序:">
+              <el-input v-model="fieldForm.sort" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="API数据接口:">
+              <el-input v-model="fieldForm.api" />
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -111,7 +111,8 @@
               <el-button @click="submit('fieldForm')">提交</el-button>
               <el-button @click="del">删除</el-button>
               <el-button @click="back">返回</el-button>
-            </el-form-item></el-col>
+            </el-form-item>
+          </el-col>
         </el-row>
 
       </el-form>
@@ -150,7 +151,14 @@ export default {
       this.fieldForm = res.data
     },
     async api() {
+      //清除空字符串，否则模板if判断会出错（因为模板没有判空）
+      for (const arg in this.fieldForm) {
+        if (!this.fieldForm[arg]) {
+          this.fieldForm[arg] = null
+        }
+      }
       this.fieldForm.project_id = this.$route.query.id
+
       const res = await putDfield(this.fieldForm.id, this.fieldForm)
       this.back()
     },

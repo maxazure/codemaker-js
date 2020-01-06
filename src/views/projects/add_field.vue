@@ -153,6 +153,13 @@ export default {
 
     async api() {
       this.fieldForm.brick_id = this.$route.query.id
+      //清除空字符串，否则模板if判断会出错（因为模板没有判空）
+      for (const arg in this.fieldForm) {
+        if (!this.fieldForm[arg]) {
+          this.fieldForm[arg] = null
+        }
+      }
+
       const res = await addDfield(this.fieldForm)
       // todo 临时注释，记得反注释
       // this.back()
