@@ -85,6 +85,10 @@ export default {
     async api() {
       const res = await put<%=titleize(@brick[:name])%>(this.<%= @brick[:name]%>EditForm.id,this.<%= @brick[:name]%>EditForm);
       if(res.code === '200') {
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        });
       this.$router.push({ path: '<%= @brick[:parent_dir] %>/<%= @brick[:name_plural]%>' });
       }
     },
@@ -92,10 +96,6 @@ export default {
       this.$refs.<%= @brick[:name]%>EditForm.validate(valid => {
         if (valid) {
           this.api();
-          this.$message({
-            message: '修改成功',
-            type: 'success'
-          });
         } else {
           return false;
         }
